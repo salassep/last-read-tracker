@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "PDF Page Tracker",
+  "version": "1.0",
+  "description": "Tracks the last read page from a PDF.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["file:///*"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "host_permissions": ["file:///*"]
+}
