@@ -10,6 +10,7 @@ export default defineConfig({
         popup: 'index.html',
         background: 'src/background.ts',
         content: 'src/content.ts',
+        pdfViewer: 'src/pdf-viewer.tsx',
       },
       output: {
         entryFileNames: '[name].js',
