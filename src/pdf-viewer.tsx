@@ -1,10 +1,15 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import './App.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 const PDFViewer: React.FC = () => {
   const [pdfFile, setPdfFile] = useState<string | null>(null);
@@ -12,9 +17,9 @@ const PDFViewer: React.FC = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const pdfUrl = urlParams.get('url');
-    if (pdfUrl) {
-      setPdfFile(pdfUrl);
+    const pdfFile = urlParams.get("https://pdfobject.com/pdf/sample.pdf");
+    if (pdfFile) {
+      setPdfFile(pdfFile);
     }
   }, []);
 
@@ -24,14 +29,12 @@ const PDFViewer: React.FC = () => {
 
   return (
     <div className="pdf-viewer">
-      {pdfFile ? (
+      {pdfFile && (
         <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
           {Array.from(new Array(numPages), (_el, index) => (
             <Page key={`page_${index + 1}`} pageNumber={index + 1} />
           ))}
         </Document>
-      ) : (
-        <p>Loading PDF...</p>
       )}
     </div>
   );
