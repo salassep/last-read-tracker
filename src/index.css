@@ -14,14 +14,11 @@
 }
 
 body {
+  position: relative;
   margin: 0;
   display: flex;
   justify-content: center;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-.page-divider {
-  margin-top: 10px;
 }
