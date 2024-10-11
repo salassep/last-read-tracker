@@ -1,11 +1,11 @@
 import './toolbar.css';
 
-export default function Toolbar(): JSX.Element {
+export default function Toolbar({ activePage }: {activePage: number}): JSX.Element {
   return (
     <div className="toolbar">
       <span>Sample pdf</span>
       <div>
-        1 of 3
+        {activePage} of 3
       </div>
       <div>
         <button>Previous</button>
