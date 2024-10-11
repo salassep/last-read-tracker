@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import './App.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -17,12 +17,13 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Document file="file:///C:/Users/Asus-GK/Downloads/sample.pdf" onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
-        <Page pageNumber={1} />
+      <Document file="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf" onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+        {
+          Array.from(new Array(numPages), (_el, index) => (
+            <Page className={index > 0 ? 'page-divider' : ''} key={`page_${index + 1}`} pageNumber={index + 1} />
+          ))
+        }
       </Document>
-      <p>
-        Page {1} of {numPages}
-      </p>
     </div>
   );
 };
