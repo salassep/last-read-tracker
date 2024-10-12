@@ -19,15 +19,14 @@ const App: React.FC = () => {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 1.0,
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // const pageNumber = parseInt(entry.target.dataset.pageNumber, 10);
-          setActivePage(1);
-          console.log('Page changed');
+          const pageNumber = parseInt(entry.target.getAttribute('data-page-number')!);
+          setActivePage(pageNumber);
         }
       });
     }, observerOptions);
