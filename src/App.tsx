@@ -53,7 +53,7 @@ const App: React.FC = () => {
       <Toolbar 
         activePage={activePage}
       />
-      <div style={{overflowY: 'scroll', height: '100vh'}}>
+      <div className='pdf-container'>
         <Document
           className={'pdf-viewer'}
           file="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf" 
