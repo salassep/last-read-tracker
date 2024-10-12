@@ -10,3 +10,22 @@
   z-index: 9999;
   background-color: #323639;
 }
+
+.center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vertical-separator {
+  display: block;
+  height: 16px;
+  border-left: 1px solid #ffffff4d;
+}
+
+.zoom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
