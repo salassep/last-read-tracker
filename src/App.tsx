@@ -13,23 +13,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const App: React.FC = () => {
   const [numPages, setNumPages] = useState<number>();
   const [activePage, setActivePage] = useState(1);
+  const [threshold, setThreshold] = useState<number>();
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const calculateThreshold = () => {
-      const element = pageRefs.current[0];
-      if (element) {
-        const elementHeight = element.getBoundingClientRect().height;
-        const viewportHeight = window.innerHeight;
-        return elementHeight / viewportHeight;
-      }
-      return 0.5;
-    };
-
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: calculateThreshold(),
+      threshold: threshold,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -50,12 +41,27 @@ const App: React.FC = () => {
         if (pageRef) observer.unobserve(pageRef);
       });
     };
-  }, [numPages]);
+  }, [threshold]);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
+  function handleLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
     pageRefs.current = new Array(numPages).fill(null);
   }
+
+  function handleRenderSuccess() {
+    const element = pageRefs.current[0];
+    if (element) {
+      const elementHeight = element.getBoundingClientRect().height;
+      const viewportHeight = window.innerHeight;
+      if (viewportHeight >= elementHeight) {
+        setThreshold(1);
+      } else {
+        setThreshold(viewportHeight / elementHeight);
+      }
+    } else {
+      setThreshold(0.5);
+    }
+  };
 
   return (
     <>
@@ -66,7 +72,7 @@ const App: React.FC = () => {
         <Document
           className={'pdf-viewer'}
           file="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf" 
-          onLoadSuccess={onDocumentLoadSuccess} 
+          onLoadSuccess={handleLoadSuccess} 
           onLoadError={console.error}
         >
           {
@@ -77,6 +83,7 @@ const App: React.FC = () => {
                 ref={(el) => (pageRefs.current[index] = el)}
                 >
                 <Page
+                  onRenderSuccess={handleRenderSuccess}
                   className={index > 0 ? 'page-divider' : ''}
                   pageNumber={index + 1} 
                 />
