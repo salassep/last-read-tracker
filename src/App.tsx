@@ -14,6 +14,7 @@ const App: React.FC = () => {
   const [numPages, setNumPages] = useState<number>();
   const [activePage, setActivePage] = useState(1);
   const [threshold, setThreshold] = useState<number>();
+  const [rotate, setRotate] = useState<number>(0);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -63,9 +64,14 @@ const App: React.FC = () => {
     }
   };
 
+  function handleRotate(degree: number) {
+    setRotate(degree);
+  }
+
   return (
     <>
       <Toolbar 
+        onRotate={() => handleRotate(rotate + 90)}
         activePage={activePage}
       />
       <div className='pdf-container'>
@@ -83,6 +89,7 @@ const App: React.FC = () => {
                 ref={(el) => (pageRefs.current[index] = el)}
                 >
                 <Page
+                  rotate={rotate}
                   onRenderSuccess={handleRenderSuccess}
                   className={index > 0 ? 'page-divider' : ''}
                   pageNumber={index + 1} 

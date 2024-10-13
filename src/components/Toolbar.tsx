@@ -1,6 +1,12 @@
 import './toolbar.css';
 
-export default function Toolbar({ activePage }: {activePage: number}): JSX.Element {
+export default function Toolbar({ 
+  activePage,
+  onRotate,
+}: {
+  activePage: number,
+  onRotate: () => void
+}): JSX.Element {
   return (
     <div className='toolbar'>
       <span>Sample pdf</span>
@@ -24,7 +30,7 @@ export default function Toolbar({ activePage }: {activePage: number}): JSX.Eleme
         </div>
       </div>
       <div className='right'>
-        <button>
+        <button onClick={onRotate}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <g fill="none" stroke="#ffffffde" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
               <path strokeDasharray="32" strokeDashoffset="32" d="M12 6c3.31 0 6 2.69 6 6c0 3.31 -2.69 6 -6 6c-3.31 0 -6 -2.69 -6 -6v-2.5">
