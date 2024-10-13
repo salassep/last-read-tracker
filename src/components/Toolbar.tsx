@@ -12,13 +12,13 @@ export default function Toolbar({ activePage }: {activePage: number}): JSX.Eleme
         <div className='zoom'>
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path fill="#ffffffde" d="M19 12.998H5v-2h14z" />
+              <path fill="#ffffffde" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
             </svg>
           </button>
           <span>100%</span>
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path fill="#ffffffde" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+              <path fill="#ffffffde" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
             </svg>
           </button>
         </div>
@@ -26,11 +26,11 @@ export default function Toolbar({ activePage }: {activePage: number}): JSX.Eleme
       <div className='right'>
         <button>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <g fill="none" stroke="#ffffffde" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-              <path stroke-dasharray="32" stroke-dashoffset="32" d="M12 6c3.31 0 6 2.69 6 6c0 3.31 -2.69 6 -6 6c-3.31 0 -6 -2.69 -6 -6v-2.5">
+            <g fill="none" stroke="#ffffffde" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+              <path strokeDasharray="32" strokeDashoffset="32" d="M12 6c3.31 0 6 2.69 6 6c0 3.31 -2.69 6 -6 6c-3.31 0 -6 -2.69 -6 -6v-2.5">
                 <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="32;0" />
               </path>
-              <path stroke-dasharray="6" stroke-dashoffset="6" d="M6 9l-3 3M6 9l3 3">
+              <path strokeDasharray="6" strokeDashoffset="6" d="M6 9l-3 3M6 9l3 3">
                 <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.2s" values="6;0" />
               </path>
             </g>
