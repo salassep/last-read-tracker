@@ -16,10 +16,20 @@ const App: React.FC = () => {
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    const calculateThreshold = () => {
+      const element = pageRefs.current[0];
+      if (element) {
+        const elementHeight = element.getBoundingClientRect().height;
+        const viewportHeight = window.innerHeight;
+        return elementHeight / viewportHeight;
+      }
+      return 0.5;
+    };
+
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: calculateThreshold(),
     };
 
     const observer = new IntersectionObserver((entries) => {
