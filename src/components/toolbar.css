@@ -1,4 +1,5 @@
 .toolbar {
+  font-size: 14px;
   position: fixed;
   padding: 0 16px;
   display: flex;
@@ -11,10 +12,14 @@
   background-color: #323639;
 }
 
-.center {
+.center, .right {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.right {
+  gap: 8px;
 }
 
 .vertical-separator {
