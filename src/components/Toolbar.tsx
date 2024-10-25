@@ -2,10 +2,16 @@ import './toolbar.css';
 
 export default function Toolbar({ 
   activePage,
+  scale,
   onRotate,
+  onAddScale,
+  onSubtractScale
 }: {
   activePage: number,
-  onRotate: () => void
+  scale: number,
+  onRotate: () => void,
+  onAddScale: () => void,
+  onSubtractScale: () => void
 }): JSX.Element {
   return (
     <div className='toolbar'>
@@ -16,13 +22,13 @@ export default function Toolbar({
         </div>
         <span className='vertical-separator'></span>
         <div className='zoom'>
-          <button>
+          <button onClick={onSubtractScale}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path fill="#ffffffde" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
             </svg>
           </button>
-          <span>100%</span>
-          <button>
+          <span>{ Math.round(scale * 100) }%</span>
+          <button onClick={onAddScale}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path fill="#ffffffde" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
             </svg>

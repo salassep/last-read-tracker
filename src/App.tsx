@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [threshold, setThreshold] = useState<number>();
   const [rotate, setRotate] = useState<number>(0);
+  const [scale, setScale] = useState<number>(1);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -68,11 +69,22 @@ const App: React.FC = () => {
     setRotate(degree);
   }
 
+  function handleAddScale() {
+    setScale(scale + 0.1);
+  }
+
+  function handleSubtractScale() {
+    setScale(scale - 0.1);
+  }
+
   return (
     <>
       <Toolbar 
         onRotate={() => handleRotate(rotate + 90)}
         activePage={activePage}
+        scale={scale}
+        onAddScale={handleAddScale}
+        onSubtractScale={handleSubtractScale}
       />
       <div className='pdf-container'>
         <Document
@@ -93,6 +105,7 @@ const App: React.FC = () => {
                   onRenderSuccess={handleRenderSuccess}
                   className={index > 0 ? 'page-divider' : ''}
                   pageNumber={index + 1} 
+                  scale={scale}
                 />
               </div>
             ))
