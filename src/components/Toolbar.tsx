@@ -66,7 +66,7 @@ export default function Toolbar({
               <path fill="#ffffffde" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
             </svg>
           </button>
-          <span>{ Math.round(scale * 100) }%</span>
+          <span className='zoom-percentage'>{ Math.round(scale * 100) }%</span>
           <button onClick={onAddScale}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path fill="#ffffffde" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />

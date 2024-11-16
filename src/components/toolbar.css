@@ -49,6 +49,12 @@
   padding: 4px;
 }
 
+.zoom-percentage {
+  display: inline-block;
+  min-width: 35px;
+  text-align: center;
+}
+
 .input-page:focus {
   outline: none;
 }
