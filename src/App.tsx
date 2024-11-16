@@ -83,6 +83,7 @@ const App: React.FC = () => {
         onRotate={() => handleRotate(rotate + 90)}
         activePage={activePage}
         scale={scale}
+        fileUrl='https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf'
         onAddScale={handleAddScale}
         onSubtractScale={handleSubtractScale}
       />

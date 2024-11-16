@@ -3,16 +3,38 @@ import './toolbar.css';
 export default function Toolbar({ 
   activePage,
   scale,
+  fileUrl,
   onRotate,
   onAddScale,
   onSubtractScale
 }: {
   activePage: number,
   scale: number,
+  fileUrl: string
   onRotate: () => void,
   onAddScale: () => void,
   onSubtractScale: () => void
 }): JSX.Element {
+
+  const handleDownloadFile = async () => {
+    try {
+      const response = await fetch(fileUrl)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "download.pdf";
+      document.body.appendChild(link);
+
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error when fetching file:", error)
+    }
+  }
+
   return (
     <div className='toolbar'>
       <span>Sample pdf</span>
@@ -48,7 +70,7 @@ export default function Toolbar({
             </g>
           </svg>
         </button>
-        <button>
+        <button onClick={handleDownloadFile}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path fill="#ffffffde" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
           </svg>
