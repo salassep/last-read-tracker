@@ -12,3 +12,7 @@
 .page-divider {
   margin-top: 10px;
 }
+
+div[data-page-number] {
+  scroll-margin-top: 56px;
+}

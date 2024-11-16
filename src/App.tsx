@@ -12,7 +12,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const App: React.FC = () => {
   const [numPages, setNumPages] = useState<number>();
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useState<number | null>(1);
+  const [defaultPage, setDefaultPage] = useState<number>(1);
   const [threshold, setThreshold] = useState<number>();
   const [rotate, setRotate] = useState<number>(0);
   const [scale, setScale] = useState<number>(1);
@@ -30,6 +31,7 @@ const App: React.FC = () => {
         if (entry.isIntersecting) {
           const pageNumber = parseInt(entry.target.getAttribute('data-page-number')!);
           setActivePage(pageNumber);
+          setDefaultPage(pageNumber)
         }
       });
     }, observerOptions);
@@ -77,12 +79,36 @@ const App: React.FC = () => {
     setScale(scale - 0.1);
   }
 
+  function handlePageChange(page: number | null) {
+    setActivePage(page)
+  }
+
+  useEffect(() => {
+    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
+    if (pageElement) {
+      pageElement.scrollIntoView(true)
+    }
+  }, [activePage])
+
+  function handleSubmitPageChange() {
+    if (!activePage || activePage < 0) {
+      setActivePage(defaultPage)
+    }
+
+    if (activePage! > numPages!) {
+      setActivePage(numPages!)
+    }
+  }
+
   return (
     <>
       <Toolbar 
         onRotate={() => handleRotate(rotate + 90)}
-        activePage={activePage}
+        activePage={activePage!}
+        totalPages={numPages!}
         scale={scale}
+        onPageChange={handlePageChange}
+        onSubmitPageChange={handleSubmitPageChange}
         fileUrl='https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf'
         onAddScale={handleAddScale}
         onSubtractScale={handleSubtractScale}

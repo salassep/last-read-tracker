@@ -2,20 +2,25 @@ import './toolbar.css';
 
 export default function Toolbar({ 
   activePage,
+  totalPages,
   scale,
   fileUrl,
   onRotate,
   onAddScale,
-  onSubtractScale
+  onSubtractScale,
+  onPageChange,
+  onSubmitPageChange,
 }: {
   activePage: number,
+  totalPages: number,
   scale: number,
   fileUrl: string
   onRotate: () => void,
   onAddScale: () => void,
-  onSubtractScale: () => void
+  onSubtractScale: () => void,
+  onPageChange: (page: number | null) => void,
+  onSubmitPageChange: () => void,
 }): JSX.Element {
-
   const handleDownloadFile = async () => {
     try {
       const response = await fetch(fileUrl)
@@ -35,12 +40,24 @@ export default function Toolbar({
     }
   }
 
+  const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    onPageChange(value === "" ? null : parseInt(value))
+  }
+
   return (
     <div className='toolbar'>
       <span>Sample pdf</span>
       <div className='center'>
         <div>
-          {activePage} / 3
+          <input
+            className="input-page"
+            type="number"
+            value={activePage ?? ""}
+            onChange={handlePageChange}
+            onBlur={onSubmitPageChange}
+          />
+          <span> / {totalPages}</span> 
         </div>
         <span className='vertical-separator'></span>
         <div className='zoom'>
