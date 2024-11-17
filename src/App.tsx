@@ -10,6 +10,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString();
 
+function getFileUrl(): string {
+  return new URL(window.location.href).searchParams.get('url')!;
+}
+
+function loadLocalStorage() {
+  const save = localStorage.getItem(getFileUrl());
+  if (save) {
+    return JSON.parse(save);
+  }
+}
+
 const App: React.FC = () => {
   const [numPages, setNumPages] = useState<number>();
   const [activePage, setActivePage] = useState<number | null>(() => loadLocalStorage() ? loadLocalStorage().activePage : 1);
@@ -55,19 +66,12 @@ const App: React.FC = () => {
   }, [activePage])
 
   useEffect(() => {
-    localStorage.setItem('https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf', JSON.stringify({
+    localStorage.setItem(getFileUrl(), JSON.stringify({
       activePage,
       scale, 
       rotate
     }))
   }, [activePage, rotate, scale]);
-
-  function loadLocalStorage() {
-    const save = localStorage.getItem('https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf');
-    if (save) {
-      return JSON.parse(save);
-    }
-  }
 
   function handleLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
@@ -135,14 +139,14 @@ const App: React.FC = () => {
         scale={scale}
         onPageChange={handlePageChange}
         onSubmitPageChange={handleSubmitPageChange}
-        fileUrl='https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf'
+        fileUrl={getFileUrl()}
         onAddScale={handleAddScale}
         onSubtractScale={handleSubtractScale}
       />
       <div className='pdf-container'>
         <Document
           className={'pdf-viewer'}
-          file="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf" 
+          file={getFileUrl()} 
           onLoadSuccess={handleLoadSuccess} 
           onLoadError={console.error}
         >
