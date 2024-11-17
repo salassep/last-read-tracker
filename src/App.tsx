@@ -97,7 +97,11 @@ const App: React.FC = () => {
   };
 
   function handleRotate(degree: number) {
-    setRotate(degree);
+    if (degree >= 360) {
+      setRotate(0);
+    } else {
+      setRotate(degree);
+    }
   }
 
   function handleAddScale() {
