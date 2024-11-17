@@ -12,11 +12,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const App: React.FC = () => {
   const [numPages, setNumPages] = useState<number>();
-  const [activePage, setActivePage] = useState<number | null>(1);
+  const [activePage, setActivePage] = useState<number | null>(() => loadLocalStorage() ? loadLocalStorage().activePage : 1);
   const [defaultPage, setDefaultPage] = useState<number>(1);
   const [threshold, setThreshold] = useState<number>();
-  const [rotate, setRotate] = useState<number>(0);
-  const [scale, setScale] = useState<number>(1);
+  const [rotate, setRotate] = useState<number>(() => loadLocalStorage() ? loadLocalStorage().rotate : 0);
+  const [scale, setScale] = useState<number>(() => loadLocalStorage() ? loadLocalStorage().scale : 1);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -47,6 +47,28 @@ const App: React.FC = () => {
     };
   }, [threshold]);
 
+  useEffect(() => {
+    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
+    if (pageElement) {
+      pageElement.scrollIntoView(true)
+    }
+  }, [activePage])
+
+  useEffect(() => {
+    localStorage.setItem('https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf', JSON.stringify({
+      activePage,
+      scale, 
+      rotate
+    }))
+  }, [activePage, rotate, scale]);
+
+  function loadLocalStorage() {
+    const save = localStorage.getItem('https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf');
+    if (save) {
+      return JSON.parse(save);
+    }
+  }
+
   function handleLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
     pageRefs.current = new Array(numPages).fill(null);
@@ -65,6 +87,13 @@ const App: React.FC = () => {
     } else {
       setThreshold(0.5);
     }
+
+    if (activePage! > 1) {
+      const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
+      if (pageElement) {
+        pageElement.scrollIntoView(true)
+      }
+    }
   };
 
   function handleRotate(degree: number) {
@@ -82,13 +111,6 @@ const App: React.FC = () => {
   function handlePageChange(page: number | null) {
     setActivePage(page)
   }
-
-  useEffect(() => {
-    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
-    if (pageElement) {
-      pageElement.scrollIntoView(true)
-    }
-  }, [activePage])
 
   function handleSubmitPageChange() {
     if (!activePage || activePage < 0) {
