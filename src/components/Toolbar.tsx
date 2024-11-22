@@ -45,9 +45,14 @@ export default function Toolbar({
     onPageChange(value === "" ? null : parseInt(value))
   }
 
+  const filename = (() => {
+    const filepathArr = fileUrl.split("/")
+    return filepathArr[filepathArr.length - 1];
+  })()
+
   return (
     <div className='toolbar'>
-      <span>Sample pdf</span>
+      <span>{ filename }</span>
       <div className='center'>
         <div>
           <input
