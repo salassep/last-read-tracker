@@ -1,4 +1,4 @@
-import PopOver from './popover/popover';
+import PopOver from './popover/PopOver';
 import './toolbar.css';
 
 export default function Toolbar({ 

@@ -22,6 +22,8 @@
 .popover-options li {
   padding: 5px 20px 5px 10px;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .popover-options li:hover {

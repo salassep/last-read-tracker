@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import './pop-over.css';
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 export default function PopOver(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAutosaveDisable, setIsAutosaveDisable] = useLocalStorage('disableAutosave', false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const togglePopover = () => {
@@ -31,9 +33,11 @@ export default function PopOver(): JSX.Element {
       </button>
       {isOpen && (
         <ul className="popover-options">
-          <li>
-            Disable autosave
-          </li>
+          {isAutosaveDisable ? (
+              <li onClick={() => setIsAutosaveDisable(false)}>Enable autosave</li>
+          ) : (
+              <li onClick={() => setIsAutosaveDisable(true)}>Disable autosave</li>
+          )}
           <li>
             Disable autosave for this file
           </li>
