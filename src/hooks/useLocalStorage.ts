@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
-export default function useLocalStorage(key: string, defaultValue: string | boolean) {
-  const [value, setValue] = useState(() => {
+export default function useLocalStorage<T>(key: string, defaultValue: T) {
+  const [value, setValue] = useState<T>(() => {
     const storedValue = localStorage.getItem(key);
     if (storedValue) {
-      return JSON.parse(storedValue);
+      return JSON.parse(storedValue) as T;
     }
     return defaultValue;
   });
@@ -14,5 +14,5 @@ export default function useLocalStorage(key: string, defaultValue: string | bool
     localStorage.setItem(key, JSON.stringify(value));
   }, [value, key]);
 
-  return [value, setValue];
+  return [value, setValue] as const;
 }
