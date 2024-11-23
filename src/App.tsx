@@ -4,6 +4,8 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import Toolbar from './components/Toolbar';
 import './App.css';
+import useLocalStorage from './hooks/useLocalStorage';
+import { State } from './types/state';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -15,20 +17,11 @@ function getFileUrl(): string {
   return "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf";
 }
 
-function loadLocalStorage() {
-  const save = localStorage.getItem(getFileUrl());
-  if (save) {
-    return JSON.parse(save);
-  }
-}
-
 const App: React.FC = () => {
-  const [numPages, setNumPages] = useState<number>();
-  const [activePage, setActivePage] = useState<number | null>(() => loadLocalStorage() ? loadLocalStorage().activePage : 1);
+  const [numPages, setNumPages] = useState<number>(0);
+  const [currentState, setCurrentState] = useLocalStorage<State>(getFileUrl(), { activePage: 1, rotate: 0, scale: 1 });
   const [defaultPage, setDefaultPage] = useState<number>(1);
   const [threshold, setThreshold] = useState<number>();
-  const [rotate, setRotate] = useState<number>(() => loadLocalStorage() ? loadLocalStorage().rotate : 0);
-  const [scale, setScale] = useState<number>(() => loadLocalStorage() ? loadLocalStorage().scale : 1);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -42,7 +35,7 @@ const App: React.FC = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const pageNumber = parseInt(entry.target.getAttribute('data-page-number')!);
-          setActivePage(pageNumber);
+          setCurrentState(prevState => ({...prevState, activePage: pageNumber}))
           setDefaultPage(pageNumber)
         }
       });
@@ -57,15 +50,8 @@ const App: React.FC = () => {
         if (pageRef) observer.unobserve(pageRef);
       });
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threshold]);
-
-  useEffect(() => {
-    localStorage.setItem(getFileUrl(), JSON.stringify({
-      activePage,
-      scale, 
-      rotate
-    }))
-  }, [activePage, rotate, scale]);
 
   function handleLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
@@ -86,45 +72,46 @@ const App: React.FC = () => {
       setThreshold(0.5);
     }
 
-    if (activePage! > 1) {
+    if (currentState.activePage > 1) {
       scrollToPage();
     }
   };
 
-  function handleRotate(degree: number) {
+  function handleRotate() {
+    const degree = currentState.rotate + 90;
     if (degree >= 360) {
-      setRotate(0);
+      setCurrentState(prevState => ({...prevState, rotate: 0}));
     } else {
-      setRotate(degree);
+      setCurrentState(prevState => ({...prevState, rotate: degree}));
     }
   }
 
   function handleAddScale() {
-    setScale(scale + 0.1);
+    setCurrentState(prevState => ({...prevState, scale: prevState.scale + 0.1}));
   }
 
   function handleSubtractScale() {
-    setScale(scale - 0.1);
+    setCurrentState(prevState => ({...prevState, scale: prevState.scale - 0.1}));
   }
 
   function scrollToPage() {
-    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
+    const pageElement = document.querySelector(`[data-page-number="${currentState.activePage}"]`)
     if (pageElement) {
       pageElement.scrollIntoView(true)
     }
   }
 
   function handlePageChange(page: number | null) {
-    setActivePage(page)
+    setCurrentState(prevState => ({...prevState, activePage: page!}));
   }
 
   function handleSubmitPageChange() {
-    if (!activePage || activePage < 0) {
-      setActivePage(defaultPage)
+    if (!currentState.activePage || currentState.activePage < 0) {
+      setCurrentState(prevState => ({...prevState, activePage: defaultPage!}));
     }
 
-    if (activePage! > numPages!) {
-      setActivePage(numPages!)
+    if (currentState.activePage > numPages!) {
+      setCurrentState(prevState => ({...prevState, activePage: numPages}));
     }
 
     scrollToPage();
@@ -133,10 +120,10 @@ const App: React.FC = () => {
   return (
     <>
       <Toolbar 
-        onRotate={() => handleRotate(rotate + 90)}
-        activePage={activePage!}
+        onRotate={() => handleRotate()}
+        activePage={currentState.activePage}
         totalPages={numPages!}
-        scale={scale}
+        scale={currentState.scale}
         onPageChange={handlePageChange}
         onSubmitPageChange={handleSubmitPageChange}
         fileUrl={getFileUrl()}
@@ -158,11 +145,11 @@ const App: React.FC = () => {
                 ref={(el) => (pageRefs.current[index] = el)}
                 >
                 <Page
-                  rotate={rotate}
+                  rotate={currentState.rotate}
                   onRenderSuccess={handleRenderSuccess}
                   className={index > 0 ? 'page-divider' : ''}
                   pageNumber={index + 1} 
-                  scale={scale}
+                  scale={currentState.scale}
                 />
               </div>
             ))
