@@ -60,13 +60,6 @@ const App: React.FC = () => {
   }, [threshold]);
 
   useEffect(() => {
-    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
-    if (pageElement) {
-      pageElement.scrollIntoView(true)
-    }
-  }, [activePage])
-
-  useEffect(() => {
     localStorage.setItem(getFileUrl(), JSON.stringify({
       activePage,
       scale, 
@@ -94,10 +87,7 @@ const App: React.FC = () => {
     }
 
     if (activePage! > 1) {
-      const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
-      if (pageElement) {
-        pageElement.scrollIntoView(true)
-      }
+      scrollToPage();
     }
   };
 
@@ -117,6 +107,13 @@ const App: React.FC = () => {
     setScale(scale - 0.1);
   }
 
+  function scrollToPage() {
+    const pageElement = document.querySelector(`[data-page-number="${activePage}"]`)
+    if (pageElement) {
+      pageElement.scrollIntoView(true)
+    }
+  }
+
   function handlePageChange(page: number | null) {
     setActivePage(page)
   }
@@ -129,6 +126,8 @@ const App: React.FC = () => {
     if (activePage! > numPages!) {
       setActivePage(numPages!)
     }
+
+    scrollToPage();
   }
 
   return (
