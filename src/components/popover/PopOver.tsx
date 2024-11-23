@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import './pop-over.css';
 import useLocalStorage from "../../hooks/useLocalStorage";
 
-export default function PopOver(): JSX.Element {
+export default function PopOver({fileUrl}: { fileUrl: string }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAutosaveDisable, setIsAutosaveDisable] = useLocalStorage('disableAutosave', false);
+  const [isAutosaveDisable, setIsAutosaveDisable] = useLocalStorage<boolean>('disableAutosave', false);
+  const [autosaveExceptionFiles, setAutosaveExceptionFiles] = useLocalStorage<string[]>('autosaveExceptionFiles', []);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const togglePopover = () => {
@@ -16,6 +17,14 @@ export default function PopOver(): JSX.Element {
       setIsOpen(false);
     }
   };
+
+  const handleDisableAutosaveForThisFile = () => {
+    setAutosaveExceptionFiles(state => [...state, fileUrl])
+  }
+
+  const handleEnableAutosaveForThisFile = () => {
+    setAutosaveExceptionFiles(state => state.filter(e => e != fileUrl));
+  }
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -38,9 +47,11 @@ export default function PopOver(): JSX.Element {
           ) : (
               <li onClick={() => setIsAutosaveDisable(true)}>Disable autosave</li>
           )}
-          <li>
-            Disable autosave for this file
-          </li>
+          {autosaveExceptionFiles.includes(fileUrl) ? (
+            <li onClick={handleEnableAutosaveForThisFile}>Enable autosave for this file</li>
+          ) : (
+            <li onClick={handleDisableAutosaveForThisFile}>Disable autosave for this file</li>
+          )}
         </ul>
       )}
     </div>

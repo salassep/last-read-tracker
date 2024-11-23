@@ -17,6 +17,7 @@
   z-index: 1000;
   color: #000;
   text-wrap: nowrap;
+  min-width: 210px;
 }
 
 .popover-options li {
