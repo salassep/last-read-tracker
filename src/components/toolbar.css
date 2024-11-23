@@ -12,13 +12,22 @@
   background-color: #323639;
 }
 
+.toolbar-item {
+  flex: 1 1 0px;
+}
+
 .center, .right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
+.center {
+  justify-content: center;
+}
+
 .right {
+  justify-content: right;
   gap: 8px;
 }
 

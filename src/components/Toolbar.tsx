@@ -47,58 +47,64 @@ export default function Toolbar({
   }
 
   const filename = (() => {
-    const filepathArr = fileUrl.split("/")
+    const filepathArr = decodeURIComponent(fileUrl).split("/")
     return filepathArr[filepathArr.length - 1];
   })()
 
   return (
     <div className='toolbar'>
-      <span>{ filename }</span>
-      <div className='center'>
-        <div>
-          <input
-            className="input-page"
-            type="number"
-            value={activePage ?? ""}
-            onChange={handlePageChange}
-            onBlur={onSubmitPageChange}
-          />
-          <span> / {totalPages}</span> 
-        </div>
-        <span className='vertical-separator'></span>
-        <div className='zoom'>
-          <button onClick={onSubtractScale}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path fill="#ffffffde" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
-            </svg>
-          </button>
-          <span className='zoom-percentage'>{ Math.round(scale * 100) }%</span>
-          <button onClick={onAddScale}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path fill="#ffffffde" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
-            </svg>
-          </button>
+      <div className="toolbar-item">
+        <div className='left'>{ filename }</div>
+      </div>
+      <div className="toolbar-item">
+        <div className='center'>
+          <div>
+            <input
+              className="input-page"
+              type="number"
+              value={activePage ?? ""}
+              onChange={handlePageChange}
+              onBlur={onSubmitPageChange}
+            />
+            <span> / {totalPages}</span> 
+          </div>
+          <span className='vertical-separator'></span>
+          <div className='zoom'>
+            <button onClick={onSubtractScale}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#ffffffde" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
+              </svg>
+            </button>
+            <span className='zoom-percentage'>{ Math.round(scale * 100) }%</span>
+            <button onClick={onAddScale}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#ffffffde" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-      <div className='right'>
-        <button onClick={onRotate}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <g fill="none" stroke="#ffffffde" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-              <path strokeDasharray="32" strokeDashoffset="32" d="M12 6c3.31 0 6 2.69 6 6c0 3.31 -2.69 6 -6 6c-3.31 0 -6 -2.69 -6 -6v-2.5">
-                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="32;0" />
-              </path>
-              <path strokeDasharray="6" strokeDashoffset="6" d="M6 9l-3 3M6 9l3 3">
-                <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.2s" values="6;0" />
-              </path>
-            </g>
-          </svg>
-        </button>
-        <button onClick={handleDownloadFile}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <path fill="#ffffffde" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
-          </svg>
-        </button>
-        <PopOver fileUrl={fileUrl} />
+      <div className="toolbar-item">
+        <div className='right'>
+          <button onClick={onRotate}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+              <g fill="none" stroke="#ffffffde" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                <path strokeDasharray="32" strokeDashoffset="32" d="M12 6c3.31 0 6 2.69 6 6c0 3.31 -2.69 6 -6 6c-3.31 0 -6 -2.69 -6 -6v-2.5">
+                  <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="32;0" />
+                </path>
+                <path strokeDasharray="6" strokeDashoffset="6" d="M6 9l-3 3M6 9l3 3">
+                  <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.2s" values="6;0" />
+                </path>
+              </g>
+            </svg>
+          </button>
+          <button onClick={handleDownloadFile}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+              <path fill="#ffffffde" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+            </svg>
+          </button>
+          <PopOver fileUrl={fileUrl} />
+        </div>
       </div>
     </div>
   );
