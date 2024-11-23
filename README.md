@@ -1,4 +1,4 @@
-# PDF Reader Chrome Extension
+# PDF Reader with Marker
 
 A simple Chrome extension built with React.js that allows you to read PDF files and saves your last-read page.
 
