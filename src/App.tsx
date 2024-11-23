@@ -13,8 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 function getFileUrl(): string {
-  // return new URL(window.location.href).searchParams.get('url')!;
-  return "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf";
+  return new URL(window.location.href).searchParams.get('url')!;
 }
 
 const App: React.FC = () => {
