@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
 import Toolbar from './components/Toolbar';
-import './App.css';
 import useLocalStorage from './hooks/useLocalStorage';
 import { State } from './types/state';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import './App.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
