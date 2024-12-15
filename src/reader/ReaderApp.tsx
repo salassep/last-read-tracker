@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
-import Toolbar from '../components/Toolbar';
+import Toolbar from '../components/toolbar/Toolbar';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { State } from '../types/state';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';

@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.popup {
+  padding: 1rem 1rem 1rem 1rem; /* 8px */
+  width: 20rem;
+  background-color: white;
+  color: black;
+  font-size: 0.875rem;
+}
+
+.popup h1 {
+  font-size: 1rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+
+.popup ul {
+  margin-top: .75rem;
+  list-style: none;
+}
+
+.popup ul li:not(:first-child) {
+  padding-top: .75rem;
+}
+
+.popup ul li:not(:last-child) {
+  border-bottom: .5px grey solid;
+}
+
+.popup ul li {
+  line-height: 1.25rem;
+  padding-bottom: .75rem;
+}
+
+.popup .action {
+  font-size: 0.75rem;
+  margin-top: .125rem;
+  display: flex;
+  gap: .5rem;
+  color: rgb(15, 158, 241);
+}
+
+.popup .action span {
+  cursor: pointer;
+}
+
+.version {
+  margin-top: 1rem;
+}
+
+.app-name {
+  font-weight: 600;
+}
+
+.version p {
+  text-align: center;
+  font-size: 0.75rem;
+}
