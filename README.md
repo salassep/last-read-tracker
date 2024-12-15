@@ -7,7 +7,7 @@ A simple Chrome extension built with React.js that allows you to read PDF files 
 - Automatically saves the last page you were reading.
 
 ## How to Use
-1. Download the extension [here](https://github.com/salassep/last-read-tracker/releases/download/v0.0.1/dist.rar).
+1. Download the extension [here](https://github.com/salassep/last-read-tracker/releases/download/v0.0.2/dist.rar).
 2. Extract the downloaded ZIP file.
 3. Open Google Chrome and navigate to **Manage Extensions** (chrome://extensions).
 4. Enable **Developer Mode** in the top-right corner.
