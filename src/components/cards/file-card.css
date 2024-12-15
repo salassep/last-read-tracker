@@ -1,0 +1,19 @@
+.file-card .action {
+  font-size: 0.75rem;
+  margin-top: .125rem;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.file-card p {
+  overflow-wrap: break-word;
+}
+
+.file-card .action button {
+  color: rgb(15, 158, 241);
+  cursor: pointer;
+}
+
+.file-card .action button:hover {
+  color: rgb(15, 94, 241);
+}

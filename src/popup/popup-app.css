@@ -34,16 +34,10 @@
   padding-bottom: .75rem;
 }
 
-.popup .action {
-  font-size: 0.75rem;
-  margin-top: .125rem;
-  display: flex;
-  gap: .5rem;
-  color: rgb(15, 158, 241);
-}
-
-.popup .action span {
-  cursor: pointer;
+.empty-text {
+  margin-top: .75rem;
+  color: grey;
+  font-style: italic;
 }
 
 .version {
