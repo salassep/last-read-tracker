@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
-import Toolbar from './components/Toolbar';
-import useLocalStorage from './hooks/useLocalStorage';
-import { State } from './types/state';
+import Toolbar from '../components/Toolbar';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { State } from '../types/state';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import './App.css';
+import './reader-app.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -16,7 +16,7 @@ function getFileUrl(): string {
   return new URL(window.location.href).searchParams.get('url')!;
 }
 
-const App: React.FC = () => {
+const ReaderApp: React.FC = () => {
   const [numPages, setNumPages] = useState<number>(0);
   const [currentState, setCurrentState] = useLocalStorage<State>(getFileUrl(), { activePage: 1, rotate: 0, scale: 1 });
   const [defaultPage, setDefaultPage] = useState<number>(1);
@@ -159,4 +159,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default ReaderApp;
